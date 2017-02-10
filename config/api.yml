@@ -1,0 +1,63 @@
+swagger: '2.0'
+info:
+  title: Insomnia Demo API
+  version: "0.1"
+consumes:
+  - application/json
+produces:
+  - application/json
+basePath: /api/v1
+paths:
+  /demo:
+    get:
+      tags: [Example]
+      operationId: insomnia_demo_api.api.demo.get
+      summary: Simply call an URL and retrieve a JSON data
+      responses:
+        200:
+          description: Returns a JSON containing a unicode string
+          schema:
+            type: object
+            properties:
+              text:
+                type: string
+                description: Some text containing a unicode.
+                example: 'Schönen Tag'
+
+  /health:
+    get:
+      tags: [Healthcheck]
+      operationId: insomnia_demo_api.api.health.get
+      summary: Returns the health of the API.
+      responses:
+        200:
+          description: Everything is fine.
+          schema:
+            $ref: '#/definitions/Health'
+        424:
+          description: A dependency is not working.
+          schema:
+            $ref: '#/definitions/Health'
+        503:
+          description: The API is broken.
+          schema:
+            $ref: '#/definitions/Health'
+
+definitions:
+  Health:
+    type: object
+    required:
+      - health
+    properties:
+      health:
+        type: string
+        description: Health color of the system.
+        example: green
+      dependencies:
+        type: string
+        description: Message about depending APIs.
+        example: elasticsearch not running.
+      message:
+        type: string
+        description: The error message.
+        example: Could not load something.

@@ -1,0 +1,12 @@
+uwsgi:
+  socket: /app/insomnia_demo_api.sock
+  chmod-socket: 666
+  module: insomnia_demo_api.app
+  enable-threads: true
+  workers: 8
+  virtualenv: env/
+  logformat: {"service": "insomnia_demo_api", "ip": "%(addr)", "status": %(status), "method": "%(method)", "uri": "%(uri)", "duration": %(msecs)}
+  req-logger: socket:logstash:2001
+  log-req-encoder: format ${msg}
+  logger: socket:logstash:2002
+  log-req-encoder: json {"message": "${msg}"}
